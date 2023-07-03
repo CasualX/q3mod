@@ -2,7 +2,7 @@
 # Quake3 external cheat
 */
 
-use std::{fmt, mem};
+use std::fmt;
 use obfstr::obfstr as s;
 use fmtools::fmt as f;
 use dataview::Pod;
@@ -13,7 +13,7 @@ use self::base::hash;
 use self::base::math;
 
 mod interface;
-pub use self::interface::Interface;
+pub use self::interface::*;
 
 mod api;
 mod sdk;
@@ -22,6 +22,7 @@ mod data;
 mod config;
 mod state;
 mod chefs;
+mod offsets;
 
 use self::api::*;
 use self::process::GameProcess;
@@ -29,6 +30,8 @@ use self::data::*;
 use self::config::ConfigLoader;
 use self::state::*;
 use self::chefs::*;
+
+pub const SETTINGSUI: &str = include_str!("settingsui.json");
 
 /// Cheat instance.
 #[derive(Default)]
@@ -41,26 +44,60 @@ pub struct Instance {
 }
 
 impl Instance {
+	fn load_gamedata(&mut self, api: &mut Api, offsets: &str) -> bool {
+		let mut parser = ini_core::Parser::new(offsets);
+		while let Some(item) = parser.next() {
+			use ini_core::*;
+			match item {
+				Item::Section(name) if hash(name) == hash!("Offsets") => {
+					self.data.load(api, &mut parser);
+
+					if self.data.TimeDateStamp == self.process.time_date_stamp {
+						return true;
+					}
+				}
+				_ => {}
+			}
+		}
+		return false;
+	}
+
 	/// Try to attach with specified gamedata.
 	///
 	/// Returns `false` on failure, details are logged.
-	pub fn attach(&mut self, api: &mut dyn Interface) -> bool {
+	pub fn attach(&mut self, api: &mut dyn Interface, offsets: &str) -> bool {
 		let api = Api(api);
 
 		if !self.process.attach(api) {
 			return false;
 		}
 
-		for gd in &OFFSETS {
-			if gd.TimeDateStamp == self.process.time_date_stamp {
-				self.data = *gd;
-				api.log(f!("Attached!"));
-				return true;
+		// First chance load the user's offsets
+		if !self.load_gamedata(api, offsets) {
+			// Second chance load known good offsets
+			if !self.load_gamedata(api, s!(offsets::OFFSETS)) {
+				// Third chance scan for offsets
+				api.log(s!("Scanning for offsets..."));
+				if let Ok(image) = self.process.read_image(api) {
+					let mut s = String::new();
+					if offsets::offsets(api, &image, &mut s) {
+						self.load_gamedata(api, &s);
+					}
+					api.log(f!("\n"{s}));
+				}
 			}
 		}
 
-		api.log(f!("Gamedata mismatch!"));
-		return false;
+		if self.data.TimeDateStamp == self.process.time_date_stamp {
+			api.log(s!("Attached!"));
+			return true;
+		}
+		else {
+			api.log(s!("Gamedata mismatch!"));
+			api.log(f!({self.data:#x?}));
+			self.data = Default::default();
+			return false;
+		}
 	}
 
 	/// Ticks the instance.

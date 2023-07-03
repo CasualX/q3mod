@@ -28,9 +28,26 @@ impl Timer {
 }
 
 pub mod math;
+pub mod solver;
 
 #[inline(never)]
 pub fn strn(bytes: &[u8]) -> Option<&str> {
 	let len = bytes.iter().position(|&byte| byte == 0).unwrap_or(bytes.len());
 	std::str::from_utf8(&bytes[..len]).ok()
+}
+
+pub mod pid;
+
+pub fn parse_u32(value: &str) -> u32 {
+	let (src, radix) = if value.starts_with(obfstr::obfstr!("0x")) {
+		let Some(s) = value.get(2..) else { return 0 };
+		(s, 16)
+	}
+	else {
+		(value, 10)
+	};
+	match u32::from_str_radix(src, radix) {
+		Ok(v) => v,
+		Err(_) => 0,
+	}
 }

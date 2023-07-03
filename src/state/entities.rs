@@ -8,6 +8,10 @@ pub struct Entities {
 
 impl Entities {
 	pub fn update(&mut self, api: &mut Api, ctx: &UpdateContext, snap: &sdk::clSnapshot_t) {
+		if ctx.data.cl_parseEntities == 0 || ctx.data.max_parse_entities == 0 {
+			return;
+		}
+
 		let len = i32::clamp(snap.numEntities, 0, sdk::MAX_SNAPSHOT_ENTITIES as i32) as usize;
 
 		if self.parsed.len() != len {
@@ -47,11 +51,9 @@ impl GameState {
 	pub fn entities(&self) -> impl '_ + Iterator<Item = &sdk::entityState_t> {
 		self.ents.baseline.iter().filter(|e| e.number != -1)
 	}
+
 	pub fn get_entity(&self, entnum: i32) -> Option<&sdk::entityState_t> {
 		let ent = self.ents.baseline.get(entnum as usize)?;
-		if ent.number != entnum {
-			return None;
-		}
-		return Some(ent);
+		return if ent.number == entnum { Some(ent) } else { None };
 	}
 }

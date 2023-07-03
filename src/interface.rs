@@ -1,5 +1,23 @@
 use std::fmt;
 
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
+pub enum Button {
+	MouseLeft,
+	MouseRight,
+	MouseMiddle,
+	MouseX1,
+	MouseX2,
+	Space,
+	Enter,
+	Tab,
+	LCtrl,
+	LAlt,
+	LShift,
+	RShift,
+	RCtrl,
+	RAlt,
+}
+
 /// Cheat interface.
 pub trait Interface {
 	/// Returns a timestamp in seconds.
@@ -18,13 +36,11 @@ pub trait Interface {
 	/// The `args` is some html that should replace the previous contents of `scope`.
 	fn visualize(&mut self, scope: &str, args: fmt::Arguments);
 
-	/// Write the dumped game binary to disk.
-	fn dump_bin(&mut self, path: &str, data: &[u8]);
-
 	/// Moves the mouse relatively by the given deltas.
 	fn mouse_move(&mut self, dx: i32, dy: i32);
 
-	fn is_vkey_down(&mut self, vk: u8) -> bool;
+	/// Returns whether the given button is down.
+	fn is_button_down(&mut self, btn: Button) -> bool;
 
 	/// Returns the base address of the game process' executable.
 	fn base_address(&mut self) -> u64;
@@ -32,18 +48,18 @@ pub trait Interface {
 	/// Reads memory from the game process.
 	///
 	/// Negative return value indicates an error.
-	fn read_memory(&mut self, address: u64, dest: &mut [u8]) -> i32;
+	fn read_memory(&mut self, address: u64, dest: &mut [u8]) -> isize;
 
 	/// Gathers memory from the game process.
 	///
 	/// This routine is optimized for reading small pieces of large objects.
 	/// Negative return value indicates an error.
-	fn gather_memory(&mut self, address: u64, size: u32, indices: &mut [u32]) -> i32;
+	fn gather_memory(&mut self, address: u64, size: u32, indices: &mut [u32]) -> isize;
 
 	/// Writes memory into the game process.
 	///
 	/// Negative return value indicates an error.
-	fn write_memory(&mut self, address: u64, src: &[u8]) -> i32;
+	fn write_memory(&mut self, address: u64, src: &[u8]) -> isize;
 
 	/// Begins rendering the overlay.
 	///

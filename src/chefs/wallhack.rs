@@ -1,6 +1,7 @@
 use super::*;
 
 struct Config {
+	enable: bool,
 	all: bool,
 	players: bool,
 	weapons: bool,
@@ -10,6 +11,7 @@ struct Config {
 impl Default for Config {
 	fn default() -> Self {
 		Config {
+			enable: true,
 			all: false,
 			players: true,
 			weapons: true,
@@ -26,6 +28,7 @@ pub struct Wallhack {
 impl cvar::IVisit for Wallhack {
 	fn visit(&mut self, f: &mut dyn FnMut(&mut dyn cvar::INode)) {
 		let default = Config::default();
+		f(&mut cvar::Property(s!("enable"), &mut self.config.enable, &default.enable));
 		f(&mut cvar::Property(s!("all"), &mut self.config.all, &default.all));
 		f(&mut cvar::Property(s!("players"), &mut self.config.players, &default.players));
 		f(&mut cvar::Property(s!("weapons"), &mut self.config.weapons, &default.weapons));
@@ -37,6 +40,9 @@ impl Wallhack {
 	pub fn run(&mut self, _api: &mut Api, _ctx: &RunContext) {}
 
 	fn filter(&self, models: &state::Models, r_ent: &sdk::refEntity_t) -> bool {
+		if !self.config.enable {
+			return false;
+		}
 		if self.config.all {
 			return true;
 		}
@@ -52,6 +58,7 @@ impl Wallhack {
 		}
 		return false;
 	}
+
 	pub fn poke(&self, api: &mut Api, models: &state::Models, ptr: sdk::Ptr<sdk::refEntity_t>, r_ent: &sdk::refEntity_t) {
 		if self.filter(models, r_ent) {
 			let _ = api.vm_write(ptr.field(4), &(r_ent.renderfx | sdk::RF_DEPTHHACK | sdk::RF_NOSHADOW));

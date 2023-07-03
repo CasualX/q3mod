@@ -1,4 +1,4 @@
-use std::{error, ops};
+use std::{error, mem, ops};
 use super::*;
 
 #[derive(Copy, Clone, Debug)]
@@ -46,17 +46,18 @@ fn visualize(this: &mut Api, scope: &str, args: &dyn fmt::Display) {
 	(**this).visualize(scope, format_args!("{}", args))
 }
 
+#[allow(dead_code)]
 impl Api {
 	/// Standard log function.
 	pub fn log(&mut self, args: impl fmt::Display) {
-		log(self, &args)
+		log(self, &args);
 	}
 
 	/// Visualize the args in a scope.
 	///
 	/// The `args` is some html that should replace the previous contents of `scope`.
 	pub fn visualize(&mut self, scope: &str, args: impl fmt::Display) {
-		visualize(self, scope, &args)
+		visualize(self, scope, &args);
 	}
 
 	/// Reads memory from the process.
@@ -71,12 +72,12 @@ impl Api {
 				let dest = dataview::bytes_mut(&mut dest);
 				self.i.read_memory(ptr.into_raw(), dest)
 			};
-			if result >= 0 { Ok(dest) }
-			else {
+			if result != mem::size_of::<T>() as isize {
 				#[cfg(feature = "debug_api")]
 				self.log(f!("error: "{std::panic::Location::caller()}" vm_read("{ptr}"): "{result}));
-				Err(Error)
+				return Err(Error);
 			}
+			Ok(dest)
 		}
 	}
 
@@ -88,12 +89,12 @@ impl Api {
 			let dest = dataview::bytes_mut(dest);
 			self.i.read_memory(ptr.into_raw(), dest)
 		};
-		if result >= 0 { Ok(()) }
-		else {
+		if result != mem::size_of_val(dest) as isize {
 			#[cfg(feature = "debug_api")]
 			self.log(f!("error: "{std::panic::Location::caller()}" vm_read_into("{ptr}"): "{result}));
-			Err(Error)
+			return Err(Error);
 		}
+		Ok(())
 	}
 
 	/// Gathers memory from the process.
@@ -104,12 +105,12 @@ impl Api {
 		let view_mut = dataview::DataView::from_mut(indices);
 		let view_mut = view_mut.slice_mut::<u32>(0, view_mut.tail_len::<u32>(0));
 		let result = self.gather_memory(ptr.into_raw(), size, view_mut);
-		if result >= 0 { Ok(indices) }
-		else {
+		if result != mem::size_of_val(indices) as isize {
 			#[cfg(feature = "debug_api")]
 			self.log(f!("error: "{std::panic::Location::caller()}" vm_gatherd("{ptr}"): "{result}));
-			Err(Error)
+			return Err(Error);
 		}
+		Ok(indices)
 	}
 
 	/// Reads bytes to be interpreted as a cstr.
@@ -128,12 +129,12 @@ impl Api {
 			let data = dataview::bytes(data);
 			self.write_memory(ptr.into_raw(), data)
 		};
-		if result >= 0 { Ok(()) }
-		else {
+		if result != mem::size_of_val(data) as isize {
 			#[cfg(feature = "debug_api")]
 			self.log(f!("error: "{std::panic::Location::caller()}" vm_write("{ptr}"): "{result}));
-			Err(Error)
+			return Err(Error);
 		}
+		Ok(())
 	}
 
 	/// Draws a rectangle.

@@ -16,6 +16,10 @@ pub struct RefEntities {
 
 impl RefEntities {
 	pub fn update(&mut self, api: &mut Api, ctx: &UpdateContext, models: &Models, connected: bool) {
+		if ctx.data.r_numentities == 0 || ctx.data.backEndData == 0 {
+			return;
+		}
+
 		if !connected {
 			self.entities.clear();
 			return;
@@ -73,10 +77,12 @@ impl RefEntities {
 	}
 }
 
+#[allow(dead_code)]
 impl GameState {
 	pub fn ref_entities(&self) -> &[sdk::refEntity_t] {
 		&self.refents.entities
 	}
+
 	pub fn find_nearest(&self, pos: &[f32; 3], part: &str) -> Option<&sdk::refEntity_t> {
 		let mut current = f32::INFINITY;
 		let mut nearest = None;

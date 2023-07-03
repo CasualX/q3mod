@@ -1,6 +1,9 @@
 #![allow(non_snake_case)]
 
-#[derive(Copy, Clone, Default)]
+use crate::Api;
+use crate::base::{hash, parse_u32};
+
+#[derive(Copy, Clone, Debug, Default)]
 pub struct GameData {
 	pub TimeDateStamp: u32,
 
@@ -11,6 +14,7 @@ pub struct GameData {
 	// R_GetModelByHandle, RE_RegisterModel:
 	// 4883F840 72% 448B1D$'
 	pub tr_models: u32,
+	pub tr_numModels: u32,
 	pub tr_maxmodels: u32,
 
 	// cnq3's clSnapshot_t does not have field maxareabytes
@@ -45,54 +49,83 @@ pub struct GameData {
 	pub r_entities: u32,
 	pub r_numentities: u32,
 	pub sizeof_refEntity_t: u32,
+
+	// SV_GameClientNum
+	// E8${ 8B05${'} 0FAFC1 4898 480305${'} C3 } 488D0D$"%5i "
+	pub sv_gameClients: u32,
 }
 
-pub static OFFSETS: [GameData; 2] = [
-	// cnq3-x64.exe
-	GameData {
-		TimeDateStamp: 0x5ed556e0,
+impl GameData {
+	pub fn load(&mut self, api: &mut Api, parser: &mut ini_core::Parser) {
+		use std::collections::HashMap;
+		use ini_core::*;
+		trait Parse {
+			fn parse(&mut self, api: &mut Api, value: &str);
+		}
+		impl Parse for u32 {
+			fn parse(&mut self, _api: &mut Api, value: &str) {
+				*self = parse_u32(value);
+			}
+		}
+		impl Parse for bool {
+			fn parse(&mut self, api: &mut Api, value: &str) {
+				if hash(value) == hash!("true") {
+					*self = true;
+				}
+				else if hash(value) == hash!("false") {
+					*self = false;
+				}
+				else {
+					api.log(fmtools::fmt!("GameData::load: Invalid bool value: "{value}));
+				}
+			}
+		}
+		let mut map = HashMap::new();
+		macro_rules! build_map {
+			($($lit:literal => $field:ident,)*) => {
+				$(
+					let $field = hash!($lit);
+					map.insert($field, &mut self.$field as &mut dyn Parse);
+				)*
+			};
+		}
+		build_map! {
+			"TimeDateStamp" => TimeDateStamp,
+			"tr.refdef" => tr_refdef,
+			"tr.models" => tr_models,
+			"tr.numModels" => tr_numModels,
+			"tr.maxmodels" => tr_maxmodels,
+			"cl.snap" => cl_snap,
+			"cl.snap.ps" => cl_snap_ps,
+			"cl.snap.has_area_bytes" => cl_snap_has_areabytes,
+			"cl.viewangles" => cl_viewangles,
+			"cl.parseEntities" => cl_parseEntities,
+			"MAX_PARSE_ENTITIES" => max_parse_entities,
+			"cls.state" => cls_state,
+			"cls.framecount" => cls_framecount,
+			"backEndData" => backEndData,
+			"r_entities" => r_entities,
+			"r_numentities" => r_numentities,
+			"sizeof refEntity_t" => sizeof_refEntity_t,
+			"sv.gameClients" => sv_gameClients,
+		}
 
-		tr_refdef: 0x398b60,
-		tr_models: 0x398DA0,
-		tr_maxmodels: 1024,
-
-		cl_snap: 0x2636f4,
-		cl_snap_ps: 0x263730,
-		cl_snap_has_areabytes: false,
-		cl_viewangles: 0x268fb0,
-		cl_parseEntities: 0x2A1340,
-		max_parse_entities: 2048,
-
-		cls_state: 0x193c70,
-		cls_framecount: 0x193c70 + 288,
-
-		backEndData: 0x5891C0,
-		r_entities: 0x300800,
-		r_numentities: 0xC1C6AC,
-		sizeof_refEntity_t: 0xC0,
-	},
-
-	// quake3e.x64.exe
-	GameData {
-		TimeDateStamp: 0x62cacf9a,
-
-		tr_refdef: 0xFA3468,
-		tr_models: 0xFA36B8,
-		tr_maxmodels: 1024,
-
-		cl_snap: 0xD7FBC4 - 16*4,
-		cl_snap_ps: 0xD7FBC4,
-		cl_snap_has_areabytes: true,
-		cl_viewangles: 0xD8543C,
-		cl_parseEntities: 0xDBD84C,
-		max_parse_entities: 8192,
-
-		cls_state: 0xc830c0,
-		cls_framecount: 0xc830c0 + 288,
-
-		backEndData: 0xFF0B28,
-		r_entities: 0x501A00,
-		r_numentities: 0x8ACC3C,
-		sizeof_refEntity_t: 0xD0,
-	},
-];
+		for line in parser {
+			match line {
+				Item::SectionEnd => {
+					return;
+				}
+				Item::Property(key, Some(value)) => {
+					let k = hash(key);
+					if let Some(field) = map.get_mut(&k) {
+						field.parse(api, value);
+					}
+					else {
+						api.log(fmtools::fmt!("GameData::load: Unknown key: "{key}));
+					}
+				}
+				_ => {}
+			}
+		}
+	}
+}

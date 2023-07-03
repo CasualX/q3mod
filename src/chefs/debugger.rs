@@ -7,7 +7,7 @@ struct Config {
 impl Default for Config {
 	fn default() -> Self {
 		Config {
-			enable: true,
+			enable: false,
 		}
 	}
 }
@@ -27,6 +27,10 @@ impl cvar::IVisit for Debugger {
 
 impl Debugger {
 	pub fn run(&mut self, api: &mut Api, ctx: &RunContext) {
+		if !self.config.enable {
+			return;
+		}
+
 		if self.timer.has_elapsed(ctx.state.time, 1.0/20.0) {
 			self.refdef(api, ctx);
 			self.client(api, ctx);

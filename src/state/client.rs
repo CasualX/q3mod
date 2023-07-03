@@ -40,6 +40,7 @@ impl Client {
 	}
 }
 
+#[allow(dead_code)]
 impl GameState {
 	pub fn state_changed(&self) -> Option<i32> {
 		if self.client.state == self.client.state_old {

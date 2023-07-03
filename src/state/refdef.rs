@@ -8,6 +8,10 @@ pub struct RefDef {
 
 impl RefDef {
 	pub fn update(&mut self, api: &mut Api, ctx: &UpdateContext) {
+		if ctx.data.tr_refdef == 0 {
+			return;
+		}
+
 		if let Ok(raw) = api.vm_read::<sdk::trRefdef_t>(ctx.process.base.field(ctx.data.tr_refdef)) {
 			if raw.vieworg != [0.0; 3] {
 				self.raw = raw;

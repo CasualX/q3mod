@@ -6,8 +6,10 @@ mod snapshot;
 mod entities;
 mod refents;
 mod models;
+mod weapon;
 
 pub use self::models::Models;
+pub use self::weapon::*;
 
 pub struct UpdateContext<'a> {
 	pub time: f64,

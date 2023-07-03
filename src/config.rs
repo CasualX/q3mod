@@ -52,7 +52,8 @@ fn loads(api: &mut Api, config: &str, section: u32, root: &mut dyn cvar::IVisit)
 					mask = name == section;
 				}
 			},
-			ini_core::Item::Property(key, value) => {
+			ini_core::Item::SectionEnd => {},
+			ini_core::Item::Property(key, Some(value)) => {
 				if mask {
 					let mut writer = String::new();
 					if !cvar::console::set(root, key, value, &mut writer) {
@@ -62,7 +63,7 @@ fn loads(api: &mut Api, config: &str, section: u32, root: &mut dyn cvar::IVisit)
 			},
 			ini_core::Item::Comment(_) => {},
 			ini_core::Item::Blank => {},
-			ini_core::Item::Action(_) | ini_core::Item::Error(_) => {
+			ini_core::Item::Property(_, None) | ini_core::Item::Error(_) => {
 				api.log(fmtools::fmt!("syntax error at line "{line}));
 			},
 		}

@@ -34,6 +34,98 @@ pub const CA_PRIMED: i32 = 7;        // got gamestate, waiting for first frame
 pub const CA_ACTIVE: i32 = 8;        // game views should be displayed
 pub const CA_CINEMATIC: i32 = 9;     // playing a cinematic or a static pic, not connected to a server
 
+pub const DEFAULT_GRAVITY: f32 = 800.0;
+
+// pmtype_t
+pub const PM_NORMAL: i32 = 0; // can accelerate and turn
+pub const PM_NOCLIP: i32 = 1; // noclip movement
+pub const PM_SPECTATOR: i32 = 2; // still run into walls
+pub const PM_DEAD: i32 = 3; // no acceleration or turning, but free falling
+pub const PM_FREEZE: i32 = 4; // stuck in place with no control
+pub const PM_INTERMISSION: i32 = 5; // no movement or status bar
+pub const PM_SPINTERMISSION: i32 = 6; // no movement or status bar
+
+pub const WEAPON_READY: i32 = 0;
+pub const WEAPON_RAISING: i32 = 1;
+pub const WEAPON_DROPPING: i32 = 2;
+pub const WEAPON_FIRING: i32 = 3;
+
+// pmove->pm_flags
+pub const PMF_DUCKED: i32 = 1;
+pub const PMF_JUMP_HELD: i32 = 2;
+pub const PMF_BACKWARDS_JUMP: i32 = 8; // go into backwards land
+pub const PMF_BACKWARDS_RUN: i32 = 16; // coast down to backwards run
+pub const PMF_TIME_LAND: i32 = 32; // pm_time is time before rejump
+pub const PMF_TIME_KNOCKBACK: i32 = 64; // pm_time is an air-accelerate only time
+pub const PMF_TIME_WATERJUMP: i32 = 256; // pm_time is waterjump
+pub const PMF_RESPAWNED: i32 = 512; // clear after attack and jump buttons come up
+pub const PMF_USE_ITEM_HELD: i32 = 1024;
+pub const PMF_GRAPPLE_PULL: i32 = 2048; // pull towards grapple location
+pub const PMF_FOLLOW: i32 = 4096; // spectate following another player
+pub const PMF_SCOREBOARD: i32 = 8192; // spectate as a scoreboard
+pub const PMF_INVULEXPAND: i32 = 16384; // invulnerability sphere set to full size
+
+pub const PW_NONE: i32 = 0;
+pub const PW_QUAD: i32 = 1;
+pub const PW_BATTLESUIT: i32 = 2;
+pub const PW_HASTE: i32 = 3;
+pub const PW_INVIS: i32 = 4;
+pub const PW_REGEN: i32 = 5;
+pub const PW_FLIGHT: i32 = 6;
+pub const PW_REDFLAG: i32 = 7;
+pub const PW_BLUEFLAG: i32 = 8;
+pub const PW_NEUTRALFLAG: i32 = 9;
+pub const PW_SCOUT: i32 = 10;
+pub const PW_GUARD: i32 = 11;
+pub const PW_DOUBLER: i32 = 12;
+pub const PW_AMMOREGEN: i32 = 13;
+pub const PW_INVULNERABILITY: i32 = 14;
+
+pub const HI_NONE: i32 = 0;
+pub const HI_TELEPORTER: i32 = 1;
+pub const HI_MEDKIT: i32 = 2;
+pub const HI_KAMIKAZE: i32 = 3;
+pub const HI_PORTAL: i32 = 4;
+pub const HI_INVULNERABILITY: i32 = 5;
+
+pub const WP_NONE: i32 = 0;
+pub const WP_GAUNTLET: i32 = 1;
+pub const WP_MACHINEGUN: i32 = 2;
+pub const WP_SHOTGUN: i32 = 3;
+pub const WP_GRENADE_LAUNCHER: i32 = 4;
+pub const WP_ROCKET_LAUNCHER: i32 = 5;
+pub const WP_LIGHTNING: i32 = 6;
+pub const WP_RAILGUN: i32 = 7;
+pub const WP_PLASMAGUN: i32 = 8;
+pub const WP_BFG: i32 = 9;
+pub const WP_GRAPPLING_HOOK: i32 = 10;
+pub const WP_NAILGUN: i32 = 11;
+pub const WP_PROX_LAUNCHER: i32 = 12;
+pub const WP_CHAINGUN: i32 = 13;
+
+// entityState_t->eFlags
+pub const EF_DEAD: i32 =             0x00000001; // don't draw a foe marker over players with EF_DEAD
+pub const EF_TICKING: i32 =          0x00000002; // used to make players play the prox mine ticking sound
+pub const EF_TELEPORT_BIT: i32 =     0x00000004; // toggled every time the origin abruptly changes
+pub const EF_AWARD_EXCELLENT: i32 =  0x00000008; // draw an excellent sprite
+pub const EF_PLAYER_EVENT: i32 =     0x00000010;
+pub const EF_BOUNCE: i32 =           0x00000010; // for missiles
+pub const EF_BOUNCE_HALF: i32 =      0x00000020; // for missiles
+pub const EF_AWARD_GAUNTLET: i32 =   0x00000040; // draw a gauntlet sprite
+pub const EF_NODRAW: i32 =           0x00000080; // may have an event, but no model (unspawned items)
+pub const EF_FIRING: i32 =           0x00000100; // for lightning gun
+pub const EF_KAMIKAZE: i32 =         0x00000200;
+pub const EF_MOVER_STOP: i32 =       0x00000400; // will push otherwise
+pub const EF_AWARD_CAP: i32 =        0x00000800; // draw the capture sprite
+pub const EF_TALK: i32 =             0x00001000; // draw a talk balloon
+pub const EF_CONNECTION: i32 =       0x00002000; // draw a connection trouble sprite
+pub const EF_VOTED: i32 =            0x00004000; // already cast a vote
+pub const EF_AWARD_IMPRESSIVE: i32 = 0x00008000; // draw an impressive sprite
+pub const EF_AWARD_DEFEND: i32 =     0x00010000; // draw a defend sprite
+pub const EF_AWARD_ASSIST: i32 =     0x00020000; // draw a assist sprite
+pub const EF_AWARD_DENIED: i32 =     0x00040000; // denied
+pub const EF_TEAMVOTED: i32 =        0x00080000; // already cast a team vote
+
 // entityState_t->eType
 pub const ET_GENERAL: i32 = 0;
 pub const ET_PLAYER: i32 = 1;
@@ -96,7 +188,7 @@ pub fn evaluate_trajectory(tr: &trajectory_t, time: int) -> vec3_t {
 		TR_GRAVITY => {
 			let dt = (time - tr.trTime) as f32 * 0.001;
 			let mut result = math::add(tr.trBase, math::muls(tr.trDelta, dt));
-			result[2] -= 0.5 * 800.0 * dt * dt;
+			result[2] -= 0.5 * DEFAULT_GRAVITY * dt * dt;
 			result
 		},
 		_ => [0.0; 3],

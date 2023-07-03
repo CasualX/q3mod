@@ -15,7 +15,7 @@ impl GameProcess {
 		self.size_of_image = 0;
 
 		let base = sdk::Ptr::from_raw(api.base_address());
-		api.log(f!({base:#x}" base address"));
+		api.log(f!("BaseAddress="{base:#x}));
 
 		self.base = base;
 		if base.is_null() {
@@ -37,7 +37,7 @@ impl GameProcess {
 			api.log(f!("SizeOfImage="{self.size_of_image:#x}));
 		}
 
-		return true;
+		return self.is_valid(api);
 	}
 
 	pub fn is_valid(&self, _api: &mut Api) -> bool {
@@ -48,5 +48,14 @@ impl GameProcess {
 			return false;
 		}
 		return true;
+	}
+
+	pub fn read_image(&self, api: &mut Api) -> Result<Vec<u8>, Error> {
+		if self.base.is_null() {
+			return Err(Error);
+		}
+		let mut image = vec![0u8; self.size_of_image as usize];
+		api.vm_read_into(self.base.cast(), image.as_mut_slice())?;
+		return Ok(image);
 	}
 }

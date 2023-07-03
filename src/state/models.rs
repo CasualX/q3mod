@@ -11,7 +11,7 @@ pub struct Models {
 impl Models {
 	pub fn update(&mut self, api: &mut Api, ctx: &UpdateContext) {
 		let maxmodels = ctx.data.tr_maxmodels as usize;
-		if maxmodels == 0 {
+		if maxmodels == 0 || ctx.data.tr_models == 0 {
 			return;
 		}
 

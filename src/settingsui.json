@@ -1,0 +1,136 @@
+{
+	"icons": {
+		"Aimbot": {
+			"url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMTUgMTUiPjxwYXRoIGZpbGw9ImN1cnJlbnRDb2xvciIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNNy41IDBhLjUuNSAwIDAgMSAuNS41djEuMzA3QTUuNjI0IDUuNjI0IDAgMCAxIDEzLjAwNyA3SDE0LjVhLjUuNSAwIDAgMSAwIDFoLTEuNTExQTUuNjI1IDUuNjI1IDAgMCAxIDggMTIuOTg5VjE0LjVhLjUuNSAwIDAgMS0xIDB2LTEuNDkzQTUuNjI0IDUuNjI0IDAgMCAxIDEuODA3IDhILjVhLjUuNSAwIDAgMSAwLTFoMS4yODlBNS42MjQgNS42MjQgMCAwIDEgNyAxLjc4OVYuNWEuNS41IDAgMCAxIC41LS41Wk04IDEyLjAzMlY5LjVhLjUuNSAwIDAgMC0xIDB2Mi41NTRBNC42NzUgNC42NzUgMCAwIDEgMi43NjMgOEg1LjVhLjUuNSAwIDAgMCAwLTFIMi43NDJBNC42NzQgNC42NzQgMCAwIDEgNyAyLjc0MlY1LjVhLjUuNSAwIDAgMCAxIDBWMi43NjNBNC42NzUgNC42NzUgMCAwIDEgMTIuMDU0IDdIOS41YS41LjUgMCAwIDAgMCAxaDIuNTMyQTQuNjc1IDQuNjc1IDAgMCAxIDggMTIuMDMyWiIgY2xpcC1ydWxlPSJldmVub2RkIi8+PC9zdmc+",
+			"style": {
+				"filter": "invert(1.0)",
+				"opacity": "0.7"
+			}
+		},
+		"Visuals": {
+			"url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjAgMjAiPjxwYXRoIGZpbGw9ImN1cnJlbnRDb2xvciIgZD0iTS4yIDEwYTExIDExIDAgMCAxIDE5LjYgMEExMSAxMSAwIDAgMSAuMiAxMHptOS44IDRhNCA0IDAgMSAwIDAtOGE0IDQgMCAwIDAgMCA4em0wLTJhMiAyIDAgMSAxIDAtNGEyIDIgMCAwIDEgMCA0eiIvPjwvc3ZnPg==",
+			"style": {
+				"filter": "invert(1.0)",
+				"opacity": "0.7"
+			}
+		},
+		"Trainer": {
+			"url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9ImN1cnJlbnRDb2xvciIgZD0iTTEyIDIyYzMuODU5IDAgNy0zLjE0MSA3LTdzLTMuMTQxLTctNy03Yy0zLjg2IDAtNyAzLjE0MS03IDdzMy4xNCA3IDcgN3ptMC0xMmMyLjc1NyAwIDUgMi4yNDMgNSA1cy0yLjI0MyA1LTUgNXMtNS0yLjI0My01LTVzMi4yNDMtNSA1LTV6bS0xLThIN3Y1LjUxOGE4Ljk1NyA4Ljk1NyAwIDAgMSA0LTEuNDU5VjJ6bTYgMGgtNHY0LjA1OWE4Ljk1NyA4Ljk1NyAwIDAgMSA0IDEuNDU5VjJ6Ii8+PHBhdGggZmlsbD0iY3VycmVudENvbG9yIiBkPSJtMTAuMDE5IDE1LjgxMWwtLjQ2OCAyLjcyNkwxMiAxNy4yNWwyLjQ0OSAxLjI4N2wtLjQ2OC0yLjcyNmwxLjk4Mi0xLjkzMmwtMi43MzgtLjM5OEwxMiAxMWwtMS4yMjUgMi40ODFsLTIuNzM4LjM5OHoiLz48L3N2Zz4=",
+			"style": {
+				"filter": "invert(1.0)",
+				"opacity": "0.7"
+			}
+		},
+		"Miscellaneous": {
+			"url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9ImN1cnJlbnRDb2xvciIgZD0iTTkuOTU0IDIuMjFhOS45OSA5Ljk5IDAgMCAxIDQuMDktLjAwMkEzLjk5MyAzLjk5MyAwIDAgMCAxNiA1LjA3YTMuOTkyIDMuOTkyIDAgMCAwIDMuNDU3LjI2MUE5Ljk4OCA5Ljk4OCAwIDAgMSAyMS41IDguODc3YTMuOTkyIDMuOTkyIDAgMCAwLTEuNSAzLjEyMmMwIDEuMjY0LjU4NiAyLjM5MSAxLjUwMSAzLjEyNGExMC4wNDIgMTAuMDQyIDAgMCAxLTIuMDQ1IDMuNTQzYTMuOTkyIDMuOTkyIDAgMCAwLTMuNDU2LjI2MWEzLjk5MyAzLjk5MyAwIDAgMC0xLjk1NSAyLjg2YTkuOTkgOS45OSAwIDAgMS00LjA5LjAwNEEzLjk5MyAzLjk5MyAwIDAgMCA4IDE4LjkyN2EzLjk5MiAzLjk5MiAwIDAgMC0zLjQ1Ny0uMjZBOS45OSA5Ljk5IDAgMCAxIDIuNSAxNS4xMjFBMy45OTIgMy45OTIgMCAwIDAgNCAxMS45OTljMC0xLjI2NC0uNTg3LTIuMzktMS41MDItMy4xMjRhMTAuMDQzIDEwLjA0MyAwIDAgMSAyLjA0NS0zLjU0MkEzLjk5MyAzLjk5MyAwIDAgMCA4IDUuMDdhMy45OTMgMy45OTMgMCAwIDAgMS45NTQtMi44NlpNMTIgMTVhMyAzIDAgMSAwIDAtNmEzIDMgMCAwIDAgMCA2WiIvPjwvc3ZnPg==",
+			"style": {
+				"filter": "invert(1.0)",
+				"opacity": "0.7"
+			}
+		}
+	},
+	"tabs": [
+		{
+			"title": "Aimbot",
+			"groups": [
+				{
+					"header": "Aimbot",
+					"items": [
+						{ "element": "Toggle", "label": "Enable", "cvar": "aim.enable" }
+					]
+				},
+				{
+					"header": "Field of view",
+					"items": [
+						{ "element": "Number", "label": "Radius", "cvar": "aim.fov_radius", "min": 0.0, "max": 200.0, "step": 0.1, "unit": "u" },
+						{ "element": "Number", "label": "Angle", "cvar": "aim.fov_aim", "min": 0.0, "max": 45.0, "step": 0.1, "unit": "°" },
+						{ "element": "Number", "label": "Minimum", "cvar": "aim.fov_min", "min": 0.0, "max": 5.0, "step": 0.1, "unit": "°" }
+					]
+				},
+				{
+					"header": "Target tracking",
+					"items": [
+						{ "element": "Number", "label": "Ramp up time", "cvar": "aim.aim_ramp", "min": 0.0, "max": 2.0, "step": 0.01, "unit": "sec" },
+						{ "element": "Number", "label": "Idle time", "cvar": "aim.aim_idletime", "min": 0.0, "max": 2.0, "step": 0.01, "unit": "sec" },
+						{ "element": "Number", "label": "Minimum time", "cvar": "aim.aim_mintime", "min": 0.0, "max": 2.0, "step": 0.01, "unit": "sec" },
+						{ "element": "Number", "label": "Cooldown power", "cvar": "aim.aim_cooldown_pow", "min": 1.0, "max": 10.0, "step": 0.1 },
+						{ "element": "Number", "label": "Reaction time", "cvar": "aim.aim_react", "min": 0.0, "max": 0.5, "step": 0.01, "unit": "sec" },
+						{ "element": "Number", "label": "Reaction distance", "cvar": "aim.aim_react_dist", "min": 0.0, "max": 100.0, "step": 0.1, "unit": "u" },
+						{ "element": "Number", "label": "Reaction power", "cvar": "aim.aim_react_pow", "min": 1.0, "max": 10.0, "step": 0.1 }
+					]
+				},
+				{
+					"header": "Smoothing",
+					"items": [
+						{ "element": "Number", "label": "Pitch strength", "cvar": "aim.aim_pitch", "min": 0.0, "max": 1.5, "step": 0.01 },
+						{ "element": "Number", "label": "Yaw strength", "cvar": "aim.aim_yaw", "min": 0.0, "max": 1.5, "step": 0.01 },
+						{ "element": "Number", "label": "Linear strength", "cvar": "aim.pid.kp", "min": 0.0, "max": 5.0, "step": 0.01 },
+						{ "element": "Number", "label": "Integral strength", "cvar": "aim.pid.ki", "min": 0.0, "max": 50.0, "step": 0.1 },
+						{ "element": "Number", "label": "Integral dampening", "cvar": "aim.pid.damp", "min": 0.0, "max": 1.0, "step": 0.01 }
+					]
+				},
+				{
+					"header": "Miscellaneous",
+					"items": [
+						{ "element": "Toggle", "label": "Debug", "cvar": "aim.debug" },
+						{ "element": "Number", "label": "Rate", "cvar": "aim.rate", "min": 30, "max": 300, "step": 1 },
+						{ "element": "Number", "label": "Teleport distance", "cvar": "aim.teledist", "min": 0.0, "max": 100.0, "step": 0.1, "unit": "u" }
+					]
+				}
+			]
+		},
+		{
+			"title": "Visuals",
+			"groups": [
+				{
+					"header": "Wallhack",
+					"items": [
+						{ "element": "Toggle", "label": "Enable", "cvar": "wh.enable" },
+						{ "element": "Toggle", "label": "All entities", "cvar": "wh.all" },
+						{ "element": "Toggle", "label": "Players", "cvar": "wh.players" },
+						{ "element": "Toggle", "label": "Weapons", "cvar": "wh.weapons" },
+						{ "element": "Toggle", "label": "Powerups", "cvar": "wh.powerups" }
+					]
+				}
+			]
+		},
+		{
+			"title": "Trainer",
+			"groups": [
+				{
+					"header": "Trainer",
+					"items": [
+						{ "element": "Status", "label": "Ready", "cvar": "trainer.ready" },
+						{ "element": "Toggle", "label": "Enable", "cvar": "trainer.enable" },
+						{ "element": "Toggle", "label": "Infinite ammo", "cvar": "trainer.infammo" },
+						{ "element": "Toggle", "label": "God mode", "cvar": "trainer.godmode" },
+						{ "element": "Toggle", "label": "Give weapons", "cvar": "trainer.givewp" },
+						{ "element": "Toggle", "label": "Fast fire", "cvar": "trainer.fastfire" }
+					]
+				},
+				{
+					"header": "Powerups",
+					"items": [
+						{ "element": "Toggle", "label": "Quad damage", "cvar": "trainer.powerup.quad" },
+						{ "element": "Toggle", "label": "Battle suit", "cvar": "trainer.powerup.suit" },
+						{ "element": "Toggle", "label": "Haste", "cvar": "trainer.powerup.haste" },
+						{ "element": "Toggle", "label": "Invisibility", "cvar": "trainer.powerup.invis" },
+						{ "element": "Toggle", "label": "Regeneration", "cvar": "trainer.powerup.regen" },
+						{ "element": "Toggle", "label": "Flight", "cvar": "trainer.powerup.flight" }
+					]
+				}
+			]
+		},
+		{
+			"title": "Miscellaneous",
+			"groups": [
+				{
+					"header": "Debugger",
+					"items": [
+						{ "element": "Toggle", "label": "Enable", "cvar": "debug.enable" }
+					]
+				}
+			]
+		}
+	]
+}

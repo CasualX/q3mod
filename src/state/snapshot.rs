@@ -9,6 +9,10 @@ pub struct ClSnapshot {
 
 impl ClSnapshot {
 	pub fn update(&mut self, api: &mut Api, ctx: &UpdateContext) {
+		if ctx.data.cl_snap == 0 {
+			return;
+		}
+
 		self.ptr = ctx.process.base.field(ctx.data.cl_snap);
 
 		self.old_parse_ents_num = self.raw.parseEntitiesNum;
@@ -18,9 +22,11 @@ impl ClSnapshot {
 			dataview::bytes_mut(&mut self.raw).copy_within(6 * 4..std::mem::size_of::<sdk::clSnapshot_t>() - 4, 7 * 4);
 		}
 	}
+
 	pub fn is_parse_entities_changed(&self) -> bool {
 		self.old_parse_ents_num != self.raw.parseEntitiesNum
 	}
+
 	pub fn is_valid(&self) -> bool {
 		self.raw.valid != 0
 	}
@@ -30,6 +36,7 @@ impl GameState {
 	pub fn player_state(&self) -> &sdk::playerState_t {
 		&self.snap.raw.ps
 	}
+
 	pub fn view_angles(&self) -> [f32; 3] {
 		let ref ps = self.snap.raw.ps;
 		math::qnorm([

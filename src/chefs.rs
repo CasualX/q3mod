@@ -4,6 +4,7 @@ mod debugger;
 mod esp;
 mod wallhack;
 mod aimbot;
+mod trainer;
 
 pub use self::wallhack::Wallhack;
 
@@ -14,6 +15,7 @@ pub struct RunContext<'a> {
 	pub screen: [i32; 2],
 }
 
+#[allow(dead_code)]
 impl<'a> RunContext<'a> {
 	pub fn world_to_screen(&self, origin: [f32; 3], clip: bool) -> Option<[f32; 2]> {
 		self.state.world_to_screen(origin, clip)
@@ -34,14 +36,16 @@ pub struct CheatManager {
 	pub wallhack: wallhack::Wallhack,
 	pub esp: esp::ESP,
 	pub aimbot: aimbot::Aimbot,
+	pub trainer: trainer::Trainer,
 }
 
 impl cvar::IVisit for CheatManager {
 	fn visit(&mut self, f: &mut dyn FnMut(&mut dyn cvar::INode)) {
-		f(&mut cvar::List(s!("dbg"), &mut self.debugger));
+		f(&mut cvar::List(s!("debug"), &mut self.debugger));
 		f(&mut cvar::List(s!("wh"), &mut self.wallhack));
 		f(&mut cvar::List(s!("esp"), &mut self.esp));
 		f(&mut cvar::List(s!("aim"), &mut self.aimbot));
+		f(&mut cvar::List(s!("trainer"), &mut self.trainer));
 	}
 }
 
@@ -50,6 +54,7 @@ impl CheatManager {
 		self.debugger.run(api, ctx);
 		self.wallhack.run(api, ctx);
 		self.aimbot.run(api, ctx);
+		self.trainer.run(api, ctx);
 
 		if api.r_begin(&mut ctx.screen) {
 			let rd = &ctx.state.refdef.raw;

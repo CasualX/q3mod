@@ -10,8 +10,18 @@ format_xml = { version = "0.3", features = ["obfstr"] }
 obfstr = "0.4"
 cvar = "0.4"
 intptr = { version = "0.1.6", features = ["serde", "dataview_1"] }
-ini_core = "0.1.0"
+ini_core = "0.2.0"
 bitset-core = { git = "https://github.com/CasualX/bitset-core" }
 vgc = { git = "https://github.com/CasualX/vgcolors" }
 named_constants = "0.2"
 pelite = { version = "0.10", features = ["unstable"] }
+
+[dev-dependencies]
+ectows = { git = "https://github.com/CasualX/ectows" }
+
+[target.'cfg(unix)'.dev-dependencies]
+regex-lite = "0.1"
+libc = "0.2"
+
+[target.'cfg(windows)'.dev-dependencies]
+external = { git = "https://github.com/CasualX/external" }
